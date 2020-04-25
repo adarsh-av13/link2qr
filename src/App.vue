@@ -1,13 +1,19 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
+    <NavBar />
     <router-view />
   </div>
 </template>
 
+<script>
+import NavBar from '@/components/NavBar.vue'
+export default {
+  components: { NavBar },
+  created() {
+    this.$store.dispatch('setUrls')
+  }
+}
+</script>
 <style>
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
@@ -17,16 +23,21 @@
   color: #2c3e50;
 }
 
-#nav {
-  padding: 30px;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+a {
+  color: white;
+  text-decoration: none;
 }
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+a:hover {
+  transform: scale(1.2);
 }
 
-#nav a.router-link-exact-active {
-  color: #42b983;
+.hidden {
+  display: none;
 }
 </style>
