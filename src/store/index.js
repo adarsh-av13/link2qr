@@ -13,6 +13,9 @@ export default new Vuex.Store({
     },
     SET_URLS(state, myUrls) {
       state.myUrls = myUrls
+    },
+    REMOVE_URL(state, id) {
+      state.myUrls = state.myUrls.filter(url => url.id !== id)
     }
   },
   actions: {
@@ -23,6 +26,15 @@ export default new Vuex.Store({
     setUrls({ commit }) {
       let myUrls = JSON.parse(localStorage.getItem('myUrls'))
       if (myUrls) commit('SET_URLS', myUrls)
+    },
+    removeUrl({ commit, state }, id) {
+      commit('REMOVE_URL', id)
+      localStorage.setItem('myUrls', JSON.stringify(state.myUrls))
+    }
+  },
+  getters: {
+    getMyUrls(state) {
+      return state.myUrls
     }
   },
   modules: {}

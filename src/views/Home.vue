@@ -3,35 +3,56 @@
     <label class="boxer" for="myurl">
       <span class="contenter">Enter your url</span>
     </label>
-    <input name="myurl" type="text" v-model="myurl" />
-    <button @click="getMyQR">Get my QR</button>
-    <div class="result" :class="{ hidden: isDead }">
-      <h2>Here's your QR</h2>
-      <img :src="image" />
-    </div>
+    <input name="myurl" type="text" placeholder="https://" v-model="myurl" />
+    <button @click="getMyQR" :disabled="isEmpty">Get my QR</button>
+    <transition name="fade">
+      <div v-show="isLoaded" class="result" :class="{ hidden: isDead }">
+        <h2>Here's your QR</h2>
+        <img :src="image" @load="loaded" />
+        <button>
+          <a :href="image" download>Download</a>
+        </button>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
+import NProgress from 'nprogress'
 export default {
   data() {
     return {
       myurl: '',
-      image: ''
+      image: '',
+      isLoaded: false
     }
   },
   computed: {
     isDead() {
       return this.image == ''
+    },
+    isEmpty() {
+      return this.myurl == ''
     }
   },
   methods: {
     getMyQR() {
+      NProgress.start()
       this.image = 'https://qrtag.net/api/qr_6.png?url=' + this.myurl
+      let id = Math.floor(Math.random() * 1000000)
+      let date = new Date()
+      date = date.toString().split(' ')
+      let mydate = date[1] + ' ' + date[2] + ' ' + date[3]
       this.$store.dispatch('addNewUrl', {
+        id: id,
         url: this.myurl,
-        image: this.image
+        image: this.image,
+        date: mydate
       })
+    },
+    loaded() {
+      this.isLoaded = true
+      NProgress.done()
     }
   }
 }
@@ -50,29 +71,39 @@ export default {
   height: 500px;
   padding: 50px;
   text-align: left;
-  background: rgb(230, 230, 230); /*#ffc558;*/
+  background: #ffc558;
 }
 
 input {
-  background-color: rgb(230, 230, 230);
-  border: none;
-  border-bottom: 1px solid white;
+  background-color: white;
+  font-size: 1rem;
+  padding: 0.2rem;
+  border: 3px solid white;
+  border-radius: 5px;
 }
 
-input:focus {
-  border-bottom: 3px solid #ffc558;
+label {
+  font-weight: 800;
 }
-
 .result {
   justify-self: center;
 }
 img {
   justify-self: center;
+  display: block;
 }
 .contenter {
   text-align: left;
 }
 
+button {
+  justify-self: center;
+  font-size: 1rem;
+  padding: 0.5rem;
+  background-color: white;
+  border: 2px solid white;
+  border-radius: 5px;
+}
 /* .outer label {
   position: absolute;
   width: 100%;
@@ -90,4 +121,15 @@ img {
   bottom: 0;
   border-bottom: 5px solid #ffc558;
 } */
+
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-to {
+  opacity: 1;
+}
+
+.fade-enter-active {
+  transition: opacity 0.5s;
+}
 </style>
