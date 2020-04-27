@@ -4,14 +4,13 @@
       <span class="contenter">Enter your url</span>
     </label>
     <input name="myurl" type="text" placeholder="https://" v-model="myurl" />
-    <button @click="getMyQR" :disabled="isEmpty">Get my QR</button>
+    <button class="search-btn" @click="getMyQR" :disabled="isEmpty">
+      Get my QR
+    </button>
     <transition name="fade">
       <div v-show="isLoaded" class="result" :class="{ hidden: isDead }">
         <h2>Here's your QR</h2>
         <img :src="image" @load="loaded" />
-        <button>
-          <a :href="image" download>Download</a>
-        </button>
       </div>
     </transition>
   </div>
@@ -37,8 +36,11 @@ export default {
   },
   methods: {
     getMyQR() {
+      let newImage = 'https://qrtag.net/api/qr_6.png?url=' + this.myurl
+      if (newImage === this.image) return
+      this.isLoaded = false
       NProgress.start()
-      this.image = 'https://qrtag.net/api/qr_6.png?url=' + this.myurl
+      this.image = newImage
       let id = Math.floor(Math.random() * 1000000)
       let date = new Date()
       date = date.toString().split(' ')
@@ -68,10 +70,10 @@ export default {
   row-gap: 5%;
   margin: 0 auto;
   width: 50%;
-  height: 500px;
+  height: 84vh;
   padding: 50px;
   text-align: left;
-  background: #ffc558;
+  background: #ffebc6;
 }
 
 input {
@@ -91,18 +93,27 @@ label {
 img {
   justify-self: center;
   display: block;
+  margin-bottom: 1rem;
 }
 .contenter {
   text-align: left;
 }
 
 button {
-  justify-self: center;
   font-size: 1rem;
   padding: 0.5rem;
   background-color: white;
   border: 2px solid white;
   border-radius: 5px;
+}
+
+.search-btn {
+  justify-self: center;
+}
+
+.dwnld-btn {
+  display: block;
+  margin: 0 auto;
 }
 /* .outer label {
   position: absolute;
@@ -121,15 +132,4 @@ button {
   bottom: 0;
   border-bottom: 5px solid #ffc558;
 } */
-
-.fade-enter {
-  opacity: 0;
-}
-.fade-enter-to {
-  opacity: 1;
-}
-
-.fade-enter-active {
-  transition: opacity 0.5s;
-}
 </style>

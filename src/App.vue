@@ -18,7 +18,7 @@ export default {
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&display=swap');
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Avenir, Helvetica, Arial', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -37,5 +37,24 @@ a {
 
 .hidden {
   display: none;
+}
+
+#nprogress .bar {
+  background: #ffa500 !important;
+}
+#nprogress .spinner-icon {
+  border-top-color: #ffa500 !important;
+  border-left-color: #ffa500 !important;
+}
+
+.fade-enter {
+  opacity: 0;
+}
+.fade-enter-to {
+  opacity: 1;
+}
+
+.fade-enter-active {
+  transition: opacity 0.5s;
 }
 </style>
