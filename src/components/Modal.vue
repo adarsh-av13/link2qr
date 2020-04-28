@@ -39,9 +39,9 @@ export default {
 }
 .modal {
   position: absolute;
-  width: 50%;
+  width: 30%;
   height: 60%;
-  left: 25%;
+  left: 35%;
   top: 20%;
   background: white;
   display: grid;
