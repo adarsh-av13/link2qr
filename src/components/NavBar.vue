@@ -10,7 +10,7 @@
 nav {
   display: flex;
   box-sizing: border-box !important;
-  width: 50%;
+  width: 100%;
   margin: 0 auto;
   align-items: center;
   justify-content: flex-end;

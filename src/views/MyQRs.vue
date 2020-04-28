@@ -1,18 +1,8 @@
 <template>
   <div class="outer">
-    <Modal
-      v-show="modalActive"
-      :image="modalImage"
-      :url="modalUrl"
-      @close="closeModal"
-    />
-    <div class="inner" v-if="getMyUrls.length">
-      <QRCard
-        v-for="url in getMyUrls"
-        :key="url.id"
-        :QR="url"
-        @view="openModal"
-      />
+    <Modal v-show="modalActive" :image="modalImage" :url="modalUrl" @close="closeModal" />
+    <div class="inner" v-if="myUrls.length">
+      <QRCard v-for="url in myUrls" :key="url.id" :QR="url" @view="openModal" />
     </div>
     <div class="inner-else" v-else>
       <p>No QRs to Display</p>
@@ -23,6 +13,7 @@
 <script>
 import QRCard from '@/components/QRCard.vue'
 import Modal from '@/components/Modal.vue'
+import { mapState } from 'vuex'
 export default {
   components: {
     QRCard,
@@ -35,12 +26,10 @@ export default {
     }
   },
   computed: {
-    getMyUrls() {
-      return this.$store.getters.getMyUrls
-    },
     modalActive() {
       return !(this.modalImage === '')
-    }
+    },
+    ...mapState(['myUrls'])
   },
   methods: {
     openModal(image, url) {
@@ -59,7 +48,7 @@ export default {
 .outer {
   position: relative;
   margin: 0 auto;
-  width: 50%;
+  width: 100%;
   height: 84vh;
   text-align: left;
   background: #ffebc6;
@@ -83,5 +72,6 @@ export default {
   row-gap: 5%;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr 1fr 0.1fr;
+  overflow: scroll;
 }
 </style>

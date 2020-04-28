@@ -15,7 +15,8 @@ const routes = [
   {
     path: '/myqrs',
     name: 'MyQRs',
-    component: MyQRs
+    component: MyQRs,
+    props: true
   }
 ]
 

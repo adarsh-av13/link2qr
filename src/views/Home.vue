@@ -4,9 +4,7 @@
       <span class="contenter">Enter your url</span>
     </label>
     <input name="myurl" type="text" placeholder="https://" v-model="myurl" />
-    <button class="search-btn" @click="getMyQR" :disabled="isEmpty">
-      Get my QR
-    </button>
+    <button class="search-btn" @click="getMyQR" :disabled="isEmpty">Get my QR</button>
     <transition name="fade">
       <div v-show="isLoaded" class="result" :class="{ hidden: isDead }">
         <h2>Here's your QR</h2>
@@ -69,7 +67,7 @@ export default {
   align-items: center;
   row-gap: 5%;
   margin: 0 auto;
-  width: 50%;
+  width: 100%;
   height: 84vh;
   padding: 50px;
   text-align: left;

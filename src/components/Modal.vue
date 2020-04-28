@@ -64,4 +64,14 @@ export default {
   transform: scale(1.2);
   transition: all 0.2s;
 }
+
+@media only screen and (max-width: 768px) {
+  .modal {
+    width: 100%;
+    left: 0;
+    background: none;
+    color: white;
+    margin: 0 auto;
+  }
+}
 </style>

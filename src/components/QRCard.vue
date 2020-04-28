@@ -4,9 +4,7 @@
       <h3>URL: {{ QR.url }}</h3>
       <span>{{ QR.date }}</span>
       <span class="dlt-btn" @click="removeUrl">X</span>
-      <span @click="$emit('view', QR.image, QR.url)" class="view-btn"
-        >View</span
-      >
+      <span @click="$emit('view', QR.image, QR.url)" class="view-btn">View</span>
     </div>
   </transition>
 </template>
