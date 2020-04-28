@@ -48,6 +48,7 @@ export default {
   grid-template-columns: 1fr;
   grid-auto-rows: max-content;
   justify-items: center;
+  word-break: break-all;
   box-shadow: 0 30px 20px 0 rgba(0, 0, 0, 0.1);
 }
 

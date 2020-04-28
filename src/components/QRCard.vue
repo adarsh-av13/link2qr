@@ -32,7 +32,15 @@ export default {
   background: white;
   box-shadow: 0 20px 30px 0 rgba(0, 0, 0, 0.1);
   padding: 1rem;
+  word-break: break-all;
 }
+
+/* .qrcard h3 {
+  width: 800px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+} */
 
 .qrcard::before {
   position: absolute;
