@@ -3,7 +3,7 @@
     <div class="qrcard">
       <h3>URL: {{ QR.url }}</h3>
       <span>{{ QR.date }}</span>
-      <span class="dlt-btn" @click="removeUrl">X</span>
+      <span class="dlt-btn" @click="$emit('remove', QR.id)">X</span>
       <span @click="$emit('view', QR.image, QR.url)" class="view-btn">View</span>
     </div>
   </transition>
@@ -15,11 +15,6 @@ export default {
     QR: {
       type: Object,
       required: true
-    }
-  },
-  methods: {
-    removeUrl() {
-      this.$store.dispatch('removeUrl', this.QR.id)
     }
   }
 }

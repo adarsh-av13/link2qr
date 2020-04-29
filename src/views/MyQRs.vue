@@ -1,8 +1,22 @@
 <template>
   <div class="outer">
     <Modal v-show="modalActive" :image="modalImage" :url="modalUrl" @close="closeModal" />
-    <div class="inner" v-if="myUrls.length">
-      <QRCard v-for="url in myUrls" :key="url.id" :QR="url" @view="openModal" />
+    <div class="inner" v-if="urls.length">
+      <QRCard v-for="url in urls" :key="url.id" :QR="url" @view="openModal" @remove="removeUrl" />
+      <div class="navigator">
+        <template v-if="this.curPage !== 1">
+          <router-link
+            class="navigator-prev"
+            :to="{ name: 'MyQRs', query: { page: curPage - 1 } }"
+          >Prev</router-link>
+        </template>
+        <template v-if="!isLastPage">
+          <router-link
+            class="navigator-next"
+            :to="{ name: 'MyQRs', query: { page: curPage + 1 } }"
+          >Next</router-link>
+        </template>
+      </div>
     </div>
     <div class="inner-else" v-else>
       <p>No QRs to Display</p>
@@ -22,14 +36,24 @@ export default {
   data() {
     return {
       modalImage: '',
-      modalUrl: ''
+      modalUrl: '',
+      urls: []
     }
   },
+  mounted() {
+    this.getMyUrls()
+  },
   computed: {
+    isLastPage() {
+      return Math.ceil(this.myUrls.length / this.perPage) == this.curPage
+    },
+    curPage() {
+      return parseInt(this.$route.query.page || 1)
+    },
     modalActive() {
       return !(this.modalImage === '')
     },
-    ...mapState(['myUrls'])
+    ...mapState(['myUrls', 'perPage'])
   },
   methods: {
     openModal(image, url) {
@@ -39,6 +63,15 @@ export default {
     closeModal() {
       this.modalImage = ''
       this.modalUrl = ''
+    },
+    getMyUrls() {
+      const start = (this.curPage - 1) * this.perPage
+      console.log(this.myUrls.length, this.myUrls)
+      this.urls = this.myUrls.slice(start, start + this.perPage)
+    },
+    removeUrl(id) {
+      this.$store.dispatch('removeUrl', id)
+      this.getMyUrls()
     }
   }
 }
@@ -73,5 +106,26 @@ export default {
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 1fr 1fr 0.1fr;
   overflow: scroll;
+}
+
+.navigator {
+  display: flex;
+  justify-content: flex-end;
+  font-weight: 800;
+}
+
+.navigator-prev {
+  color: #ffa500 !important;
+  margin-right: auto;
+}
+
+.navigator-prev:hover {
+  border-bottom: 2px solid;
+}
+.navigator-next {
+  color: #ffa500 !important;
+}
+.navigator-next:hover {
+  border-bottom: 2px solid;
 }
 </style>

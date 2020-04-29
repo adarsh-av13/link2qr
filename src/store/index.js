@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    myUrls: []
+    myUrls: [],
+    perPage: 3
   },
   mutations: {
     ADD_URL(state, newUrl) {
